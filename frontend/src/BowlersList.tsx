@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { bowler } from "./types/bowlers";  // Ensure 'Bowler' is correctly imported
+import { bowler } from "./types/bowlers";  
 
 function BowlersList() {
     const [bowlers, setBowlers] = useState<bowler[]>([]);
@@ -23,7 +23,6 @@ function BowlersList() {
 
     return (
         <>
-            <h1>Bowling League</h1>
             <table>
                 <thead>
                     <tr>
