@@ -1,55 +1,57 @@
 import { useEffect, useState } from "react";
-import {bowler} from "./types/bowlers"
+import { bowler } from "./types/bowlers";  // Ensure 'Bowler' is correctly imported
 
-
-function FoodList() {
-
+function BowlersList() {
     const [bowlers, setBowlers] = useState<bowler[]>([]);
 
-
     useEffect(() => {
-        
-        const fetchFood = async () => {
-            const response = await fetch("https://localhost:5000/api/BowlersList")
-            const data = await response.json();
-            setBowlers(data);
-        }
+        const fetchBowlers = async () => {
+            try {
+                const response = await fetch("https://localhost:5000/api/Bowlers"); // ✅ Fixed API endpoint
+                if (!response.ok) {
+                    throw new Error("Failed to fetch bowlers");
+                }
+                const data = await response.json();
+                setBowlers(data);
+            } catch (error) {
+                console.error("Error fetching bowlers:", error);
+            }
+        };
 
-        fetchFood()
-    }, [])
-
+        fetchBowlers();
+    }, []);
 
     return (
-    <>
-        <h1>Marriot Food</h1>
-        <table>
-            <thead>
-                <tr>
-                    <th>Bowler Name</th>
-                    <th>Team Name</th>
-                    <th>Address</th>
-                    <th>City</th>
-                    <th>State</th>
-                    <th>State</th>
-                    <th>Zip</th>
-                    <th>Phone Number</th>
-                </tr>
-            </thead>
-            <tbody>
-                {
-                    bowlers.map((b) => (
+        <>
+            <h1>Bowling League</h1>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Bowler Name</th>
+                        <th>Team Name</th>
+                        <th>Address</th>
+                        <th>City</th>
+                        <th>State</th>
+                        <th>Zip</th>
+                        <th>Phone Number</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {bowlers.map((b) => (
                         <tr key={b.bowlerId}>
-                            <td>{b.bowlerId}</td>
-                            <td>{b.bowlerId}</td>
-                            <td>{b.bowlerId}</td>
+                            <td>{b.bowlerFirstName} {b.bowlerMiddleInit ?? ""} {b.bowlerLastName}</td>
+                            <td>{b.team?.teamName ?? "Unknown"}</td> 
+                            <td>{b.bowlerAddress}</td>
+                            <td>{b.bowlerCity}</td>
+                            <td>{b.bowlerState}</td>
+                            <td>{b.bowlerZip}</td>
+                            <td>{b.bowlerPhoneNumber}</td>
                         </tr>
-                    ))
-                }
-            </tbody>
-        </table>
-    </>
-        
-    )
+                    ))}
+                </tbody>
+            </table>
+        </>
+    );
 }
 
-export default FoodList;
+export default BowlersList;
