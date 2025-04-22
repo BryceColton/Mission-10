@@ -18,6 +18,3 @@ obj/
 node_modules/
 wwwroot/
 
-# Environment variables & secrets
-appsettings*.json
-.env
